@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightDocs.Models
 {
     public class Account
     {
+        [Key]
         public int Id { get; set; }
 
         //Foreign Key
@@ -15,7 +17,7 @@ namespace FlightDocs.Models
         [ForeignKey("UserId")]
         public User User { get; set; }
 
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         [ForeignKey("GroupId")]
         public Group Group { get; set; }
 

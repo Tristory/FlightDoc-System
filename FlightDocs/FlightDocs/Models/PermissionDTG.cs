@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightDocs.Models
 {
     public class PermissionDTG
     {
+        [Key]
         public int Id { get; set; }
         public int Access_Level { get; set; }
 

@@ -1,4 +1,10 @@
+using FlightDocs.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add Db Context services
+builder.Services.AddDbContext<ApplicationDbContext>( x => x.UseSqlServer(builder.Configuration.GetConnectionString("DbCon")));
 
 // Add services to the container.
 

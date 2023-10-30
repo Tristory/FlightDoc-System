@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightDocs.Models
 {
     public class OldVersion
     {
+        [Key]
         public int Id { get; set; }
         public string Version { get; set; }
         public string File_path { get; set; }
-        public string Signature_Filepath { get; set; }
+        public string? Signature_Filepath { get; set; }
 
         //Foreign Key
         public int DocumentId { get; set; }

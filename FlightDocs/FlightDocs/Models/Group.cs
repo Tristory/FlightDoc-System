@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightDocs.Models
 {
     public class Group
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Created_date { get; set; }
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         //Foreign Connection
         public ICollection<Account> Accounts { get; set; }

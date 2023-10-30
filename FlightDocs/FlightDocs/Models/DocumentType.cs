@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightDocs.Models
 {
     public class DocumentType
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Created_date { get; set; }
@@ -13,7 +15,7 @@ namespace FlightDocs.Models
         public ICollection<Document> Documents { get; set; }
 
         //Foreign Key
-        public int Customer_roleId { get; set; }
+        public int? Customer_roleId { get; set; }
         [ForeignKey("Customer_roleId")]
         public Role Role { get; set; }
 
