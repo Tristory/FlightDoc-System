@@ -4,6 +4,7 @@ using FlightDocs.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightDocs.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231031052832_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +68,6 @@ namespace FlightDocs.Migrations
                     b.Property<DateTime>("Created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
 
@@ -97,8 +96,6 @@ namespace FlightDocs.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
 
                     b.HasIndex("DocumentTypeId");
 
@@ -158,9 +155,6 @@ namespace FlightDocs.Migrations
                     b.Property<string>("From_Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
 
                     b.Property<string>("To_Location")
                         .IsRequired()
@@ -351,12 +345,6 @@ namespace FlightDocs.Migrations
 
             modelBuilder.Entity("FlightDocs.Models.Document", b =>
                 {
-                    b.HasOne("FlightDocs.Models.User", "User")
-                        .WithMany("Documents")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FlightDocs.Models.DocumentType", "DocumentType")
                         .WithMany("Documents")
                         .HasForeignKey("DocumentTypeId")
@@ -372,8 +360,6 @@ namespace FlightDocs.Migrations
                     b.Navigation("DocumentType");
 
                     b.Navigation("Flight");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FlightDocs.Models.DocumentType", b =>
@@ -494,8 +480,6 @@ namespace FlightDocs.Migrations
                         .IsRequired();
 
                     b.Navigation("DocumentTypes");
-
-                    b.Navigation("Documents");
 
                     b.Navigation("Groups");
                 });

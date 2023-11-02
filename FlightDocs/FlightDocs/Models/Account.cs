@@ -7,6 +7,7 @@ namespace FlightDocs.Models
     {
         [Key]
         public int Id { get; set; }
+        public bool IsActive { get; set; }
 
         //Foreign Key
         public int RoleId {  get; set; }

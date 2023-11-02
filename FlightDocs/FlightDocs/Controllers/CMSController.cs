@@ -7,15 +7,12 @@ namespace FlightDocs.Controllers
     public class CMSController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private FlightDM flightDM;
 
         public CMSController(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        public List<Role> GetRoles() 
-        {
-            return _context.Roles.ToList();
+            flightDM = new FlightDM(_context);
         }
 
         [HttpPost]
@@ -27,18 +24,11 @@ namespace FlightDocs.Controllers
             return "Add success!";
         }
 
-        public string UpdateRoles(Role role)
+        [HttpPost]
+        [Route("AddFlight")]
+        public void AddFlight(Flight flight)
         {
-            _context.Roles.Update(role);
-            _context.SaveChanges();
-            return "Update success!";
-        }
-
-        public string DeleteRoles(Role role) 
-        {
-            _context.Roles.Remove(role);
-            _context.SaveChanges();
-            return "Delete success!";
+            flightDM.AddFlight(flight);
         }
 
         public IActionResult Index()

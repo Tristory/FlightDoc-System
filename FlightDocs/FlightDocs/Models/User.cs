@@ -13,6 +13,7 @@ namespace FlightDocs.Models
 
         //Foreign Connection
         public ICollection<Group> Groups { get; set; }
+        public ICollection<Document> Documents { get; set; }
         public ICollection<DocumentType> DocumentTypes { get; set; }
         public Account Account { get; set; }
     }

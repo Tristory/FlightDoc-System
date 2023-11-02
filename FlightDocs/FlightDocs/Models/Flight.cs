@@ -6,6 +6,7 @@ namespace FlightDocs.Models
     {
         [Key]
         public int Id { get; set; }
+        public bool IsConfirmed { get; set; }
         public DateTime Departure_Time { get; set; }
         public DateTime Arrival_Time { get; set; }
         public string From_Location { get; set; }

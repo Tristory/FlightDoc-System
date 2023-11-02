@@ -27,5 +27,9 @@ namespace FlightDocs.Models
         public int FlightId { get; set; }
         [ForeignKey("FlightId")]
         public Flight Flight { get; set; }
+
+        public int CreatorId { get; set; }
+        [ForeignKey("CreatorId")]
+        public User User { get; set; }
     }
 }

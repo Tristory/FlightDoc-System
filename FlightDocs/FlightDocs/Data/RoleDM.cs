@@ -16,21 +16,21 @@ namespace FlightDocs.Data
             return _context.Roles.ToList();
         }
 
-        public string AddRoles(Role role)
+        public string AddRole(Role role)
         {
             _context.Roles.Add(role);
             _context.SaveChanges();
             return "Add success!";
         }
 
-        public string UpdateRoles(Role role)
+        public string UpdateRole(Role role)
         {
             _context.Roles.Update(role);
             _context.SaveChanges();
             return "Update success!";
         }
 
-        public string DeleteRoles(Role role)
+        public string DeleteRole(Role role)
         {
             _context.Roles.Remove(role);
             _context.SaveChanges();

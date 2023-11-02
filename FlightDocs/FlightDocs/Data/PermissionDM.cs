@@ -12,18 +12,20 @@ namespace FlightDocs.Data
             _context = context;
         }
 
-        public List<PermissionDG> GetPermissionDG(int Id)
+        public List<PermissionDG> GetPermissionDGs(int documentId)
         {
             return _context.PermissionDG
                 .Include(e => e.Document)
-                .Where(e => e.DocumentId == Id).ToList();
+                .Where(e => e.DocumentId == documentId).ToList();
         }
 
-        public List<PermissionDTG> GetPermissionDTG(int Id) 
+        public PermissionDG GetPermissionDG(int Id) => _context.PermissionDG.Find(Id);
+
+        public List<PermissionDTG> GetPermissionDTGs(int documentTypeId) 
         {
             return _context.PermissionDTG
                 .Include(e => e.DocumentType)
-                .Where(e => e.DocumentTypeId == Id).ToList();
+                .Where(e => e.DocumentTypeId == documentTypeId).ToList();
         }
 
         public string AddPermissionDG(PermissionDG permissionDG) 
@@ -34,12 +36,23 @@ namespace FlightDocs.Data
             return "Add success!";
         }
 
-        public string AddPermissionDTG(PermissionDTG permissionDTG)
+        public string AddPermissionDTG(PermissionDTG permissionDTG, int access_level)
         {
+            // O mean no access, 1 mean read only and 2 mean read and write
+            // For east query, null and 0 is treated the same
+            permissionDTG.Access_Level = access_level;
+
             _context.PermissionDTG.Add(permissionDTG);
             //Need the id of the current DocumenType
             _context.SaveChanges();
             return "Add success!";
+        }
+
+        public string DeletePermissionDG(int documentId)
+        {
+            _context.PermissionDG.Remove(GetPermissionDG(documentId));
+            _context.SaveChanges();
+            return "Delete success!";
         }
     }
 }
