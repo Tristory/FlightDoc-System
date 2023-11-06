@@ -1,5 +1,6 @@
 ﻿using FlightDocs.Data;
 using FlightDocs.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightDocs.Controllers
@@ -15,6 +16,7 @@ namespace FlightDocs.Controllers
             flightDM = new FlightDM(_context);
         }
 
+        [Authorize(Policy = "For Admin")]
         [HttpPost]
         [Route("AddRole")]
         public string AddRoles(Role role)

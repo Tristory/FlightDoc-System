@@ -67,3 +67,4 @@ E:\Learning stuff\Alta Software\FlightDocs\FlightDocs\obj\Debug\net6.0\refint\Fl
 E:\Learning stuff\Alta Software\FlightDocs\FlightDocs\obj\Debug\net6.0\FlightDocs.pdb
 E:\Learning stuff\Alta Software\FlightDocs\FlightDocs\obj\Debug\net6.0\FlightDocs.genruntimeconfig.cache
 E:\Learning stuff\Alta Software\FlightDocs\FlightDocs\obj\Debug\net6.0\ref\FlightDocs.dll
+E:\Learning stuff\Alta Software\FlightDocs\FlightDocs\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
