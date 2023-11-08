@@ -1,4 +1,5 @@
-﻿using FlightDocs.Models;
+﻿using FlightDocs.Controllers;
+using FlightDocs.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightDocs.Data
@@ -57,6 +58,10 @@ namespace FlightDocs.Data
 
         public string UpdateDocumentContext(Document document)
         {
+            /*if (document.CreatorId.ToString() != IdentityController.CurrentUserId(tokenString)
+                || IdentityController.UserIsAdmin(tokenString))
+                return "You shall not pass!";*/
+
             document.Updated_date = DateTime.Now;
 
             _context.Documents.Update(document);
@@ -66,6 +71,11 @@ namespace FlightDocs.Data
 
         public string UpdateDocumentVersion(Document document)
         {
+            //Make sure that user is the creator
+            /*if (document.CreatorId.ToString() != IdentityController.CurrentUserId(tokenString) 
+                || IdentityController.UserIsAdmin(tokenString))
+                return "You shall not pass!";*/
+
             //Create the old version record
             AddOldVersion(GetDocument(document.Id));
 
@@ -95,6 +105,16 @@ namespace FlightDocs.Data
             }
 
             
+        }
+
+        public bool IsCreator(Document document, string currentUserId)
+        {
+            if (document.CreatorId.ToString() == currentUserId)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public string AddOldVersion(Document document)

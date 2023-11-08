@@ -37,7 +37,24 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("For Admin", p => p.RequireClaim("Name", "Star Platinum"));
+    options.AddPolicy("Admin Only", p => p.RequireClaim("Role", "admin"));        
+    options.AddPolicy("For Name", p => p.RequireClaim("Name", "Star Platinum"));
+
+    //options.AddPolicy("Someone and Admin", p => p.RequireClaim("Role", "other than admin").RequireClaim("Role", "admin"));
+    options.AddPolicy("Staff and Admin", p =>
+    {
+        p.RequireAssertion(context =>
+            context.User.HasClaim(c => c.Type == "Role" && c.Value == "staff GO") ||
+            context.User.HasClaim(c => c.Type == "Role" && c.Value == "admin"));
+    });
+
+    options.AddPolicy("Fly Attendant and Admin", p =>
+    {
+        p.RequireAssertion(context =>
+            context.User.HasClaim(c => c.Type == "Role" && c.Value == "crew") ||
+            context.User.HasClaim(c => c.Type == "Role" && c.Value == "pilot") ||
+            context.User.HasClaim(c => c.Type == "Role" && c.Value == "admin"));
+    });
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

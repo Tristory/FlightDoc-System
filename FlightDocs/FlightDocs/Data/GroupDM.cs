@@ -17,6 +17,8 @@ namespace FlightDocs.Data
 
         public string AddGroup(Group group)
         {
+            group.Created_date = DateTime.Now;
+
             _context.Groups.Add(group);
             _context.SaveChanges();
             return "Add success!";

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 
 namespace FlightDocs.Models
 {
@@ -20,5 +21,13 @@ namespace FlightDocs.Models
         public int CreatorId { get; set; }
         [ForeignKey("CreatorId")]
         public User User { get; set; }
+    }
+
+    public class GroupInfo
+    {
+        public string Name { get; set; }
+        public DateTime Created_date { get; set; }
+        public string? Note { get; set; }
+        public int CreatorId { get; set; }
     }
 }

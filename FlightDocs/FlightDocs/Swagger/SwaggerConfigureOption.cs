@@ -29,7 +29,8 @@ namespace FlightDocs.Swagger
                             Id = "Bearer"
                         }
                     },
-                Array.Empty<string>()
+                    
+                    Array.Empty<string>()
                 }
             });
         }

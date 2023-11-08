@@ -1,4 +1,5 @@
 ﻿using FlightDocs.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Security;
 
 namespace FlightDocs.Data
@@ -16,7 +17,28 @@ namespace FlightDocs.Data
 
         public User GetUser(int Id) => _context.Users.Find(Id);
 
-        public string AddAccount(Account account) 
+        public Account GetUserAccount(string name, string password)
+        {
+            var user  = _context.Users.FirstOrDefault(u => u.Name == name);
+
+            if (user == null)
+                return null;
+            else if (user.Password != password)
+                return null;
+
+            var account = _context.Account
+                .Include(a => a.User)
+                .Include(a => a.Role)
+                .FirstOrDefault(a => a.UserId == user.Id);
+
+            if (!account.IsActive)
+                return null;
+
+            return account;
+
+        }
+
+        public string AddAccount(Account account)
         {
             _context.Account.Add(account);
             _context.SaveChanges();
@@ -56,13 +78,15 @@ namespace FlightDocs.Data
 
         public string AddUser(User user) 
         {
+            //user.Name = "Tester";
+            user.Email = user.Name + "@vietjetair.com.vn";
             _context.Users.Add(user);
             _context.SaveChanges();
             return "Add success!";
         }
 
         public string UpdateUser(User user) 
-        {
+        {            
             _context.Users.Update(user);
             _context.SaveChanges();
             return "Update success!";
