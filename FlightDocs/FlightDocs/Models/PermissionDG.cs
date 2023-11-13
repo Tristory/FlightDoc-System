@@ -17,4 +17,10 @@ namespace FlightDocs.Models
         [ForeignKey("DocumentId")]
         public Document Document { get; set; }
     }
+
+    public class PermissionDGInfo
+    {
+        public int GroupId { get; set; }
+        public int DocumentId { get; set; }
+    }
 }

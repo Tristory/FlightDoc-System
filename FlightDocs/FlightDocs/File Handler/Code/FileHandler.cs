@@ -2,12 +2,12 @@
 {
     public class FileHandler
     {
-        public static async Task<string> UploadFile(IFormFile file)
+        public static async Task<string> UploadFile(IFormFile file, string fileName)
         {
             if (file == null || file.Length == 0)
                 return null;
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "File Handler", "Main Folder", file.FileName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "File Handler", "Main Folder", fileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -16,7 +16,22 @@
 
             return "Success";
         }
-        
+
+        public static async Task<string> UploadPicture(IFormFile file, string fileName)
+        {
+            if (file == null || file.Length == 0)
+                return null;
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "File Handler", "Sign Folder", fileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return "Success";
+        }
+
         public static IFormFile ShowFile(string fileName)
         {
             if (fileName == null)

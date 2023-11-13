@@ -13,7 +13,46 @@ namespace FlightDocs.Data
             _context = context;
         }
 
+        public List<Account> GetAccounts()
+        {
+            return _context.Account
+                .Include(e => e.User).ToList();
+        }
+
+        public List<Account> GetGroupMembers(int groupId)
+        {
+            return _context.Account
+                .Include(e => e.Group)
+                .Include(e => e.User)
+                .Include(e => e.Role)
+                .Where(e => e.GroupId == groupId).ToList();
+        }
+
+        public List<Account> GetNotGroupMembers(int groupId)
+        {
+            return _context.Account
+                .Include(e => e.User)
+                .Where(e => e.GroupId != groupId).ToList();
+        }
+
         public Account GetAccount(int Id) => _context.Account.Find(Id);
+
+        public Account GetAccountWithUser(int Id)
+        {
+            return _context.Account
+                .Include(e => e.User)
+                .FirstOrDefault(e => e.Id == Id);
+        }
+
+        public Account GetUserAccount(int userId)
+        {
+            return _context.Account.FirstOrDefault(e => e.UserId == userId);
+        }
+
+        public List<User> GetNotCurrentUser(int userId)
+        {
+            return _context.Users.Where(e => e.Id != userId).ToList();
+        }
 
         public User GetUser(int Id) => _context.Users.Find(Id);
 
@@ -53,13 +92,19 @@ namespace FlightDocs.Data
             return "Update success!";
         }
 
-        public void UpdateAccountUser(Account account, int newUserId)
+        public string UpdateAccountUser(int acId, int newUserId, string password)
         {
             //User newUser = GetUser(newUserId);
 
+            var account = GetAccountWithUser(acId);
+
+            if (account.User.Password == password)
+                return "Wrong password!";
+
+
             account.UserId = newUserId;
 
-            UpdateAccount(account);
+            return UpdateAccount(account);
         }
 
         public void UpdateAccountGroup(Account account, int? newGroupId)

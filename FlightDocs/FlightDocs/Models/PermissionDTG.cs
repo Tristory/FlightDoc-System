@@ -18,4 +18,12 @@ namespace FlightDocs.Models
         [ForeignKey("DocumentTypeId")]
         public DocumentType DocumentType { get; set; }
     }
+
+    public class PermissionDTGInfo
+    {
+        [Range(0, 3)]
+        public int Access_Level { get; set; }
+        public int GroupId { get; set; }
+        public int DocumentTypeId { get; set; }
+    }
 }

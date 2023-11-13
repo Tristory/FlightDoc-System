@@ -30,7 +30,7 @@ namespace FlightDocs.Data
                 .Where(e => e.Departure_Time > today)
                 .ToList();
         }
-
+        
         public List<Flight> GetTodayFlights()
         {
             DateTime today = DateTime.Now;
@@ -39,6 +39,8 @@ namespace FlightDocs.Data
                 .Where(e => e.Departure_Time.Date == today.Date)
                 .ToList();
         }
+
+        public Flight GetFlight(int id) => _context.Flights.Find(id);
 
         public string AddFlight(Flight flight)
         {

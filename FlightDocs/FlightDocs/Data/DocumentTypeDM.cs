@@ -15,14 +15,14 @@ namespace FlightDocs.Data
 
         public DocumentType GetDocumentType(int Id) => _context.DocumentTypes.Find(Id);
 
-        public string AddDocumentType(DocumentType documentType, int currentUserId)
+        public int AddDocumentType(DocumentType documentType)
         {
             documentType.Created_date = DateTime.Now;
-            documentType.CreatorId = currentUserId;
+            //documentType.CreatorId = currentUserId;
 
             _context.DocumentTypes.Add(documentType);
             _context.SaveChanges();
-            return "Add success!";
+            return documentType.Id;
         }
 
         public string UpdateDocumentType(DocumentType documentType)

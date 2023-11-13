@@ -40,7 +40,7 @@ namespace FlightDocs.Controllers
             {
                 claims = new List<Claim>()
                 {
-                    new Claim("Id", "000"),
+                    new Claim("Id", "0"),
                     new Claim("Name", "Zawarudo"),
                     new Claim("Role", "admin")
                 };
@@ -112,7 +112,10 @@ namespace FlightDocs.Controllers
             Account account = accountDM.GetUserAccount(name, password);
 
             if (account == null)
-                return Content("Opp! Something is wrong");
+                return Content("Opp! Something is wrong.");
+
+            if (!account.IsActive)
+                return Content("Nothing personal pal.");
 
             return TokenGenerator(account);
         }

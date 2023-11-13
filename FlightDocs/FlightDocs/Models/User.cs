@@ -17,4 +17,11 @@ namespace FlightDocs.Models
         public ICollection<DocumentType> DocumentTypes { get; set; }
         public Account Account { get; set; }
     }
+
+    public class UserInfo
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
 }

@@ -28,6 +28,14 @@ namespace FlightDocs.Data
                 .Where(e => e.DocumentTypeId == documentTypeId).ToList();
         }
 
+        public PermissionDTG GetPermissionDTG(int dtId, int groupId)
+        {
+            return _context.PermissionDTG
+                .Include(e => e.Group)
+                .Include(e => e.DocumentType)
+                .FirstOrDefault(e => e.GroupId == groupId && e.DocumentTypeId == dtId);
+        }
+
         public string AddPermissionDG(PermissionDG permissionDG) 
         {
             _context.PermissionDG.Add(permissionDG);
@@ -36,16 +44,23 @@ namespace FlightDocs.Data
             return "Add success!";
         }
 
-        public string AddPermissionDTG(PermissionDTG permissionDTG, int access_level)
+        public string AddPermissionDTG(PermissionDTG permissionDTG)
         {
             // O mean no access, 1 mean read only and 2 mean read and write
             // For east query, null and 0 is treated the same
-            permissionDTG.Access_Level = access_level;
+            //permissionDTG.Access_Level = access_level;
 
             _context.PermissionDTG.Add(permissionDTG);
             //Need the id of the current DocumenType
             _context.SaveChanges();
             return "Add success!";
+        }
+
+        public string UpdatePermissionDTG(PermissionDTG permissionDTG)
+        {
+            _context.PermissionDTG.Update(permissionDTG);
+            _context.SaveChanges();
+            return "Update success!";
         }
 
         public string DeletePermissionDG(int documentId)

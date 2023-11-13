@@ -14,21 +14,28 @@ namespace FlightDocs.Controllers
     public class DeveloperController : Controller
     {
         //private HttpContext _httpContext;
-        private readonly ApplicationDbContext _context;
         //private FileHandler _fileHandler;
-        private FlightDM flightDM;
+        private readonly ApplicationDbContext _context;
         private RoleDM roleDM;
+        private FlightDM flightDM;        
+        private DocumentDM documentDM;
+        private PermissionDM permissionDM;
+        private DocumentTypeDM documentTypeDM;        
 
         public DeveloperController(ApplicationDbContext context)
         {
             //_httpContext = httpContext;
             _context = context;
-            flightDM = new FlightDM(_context);
             roleDM = new RoleDM(_context);
+            flightDM = new FlightDM(_context);            
+            documentDM =  new DocumentDM(_context);
+            permissionDM = new PermissionDM(_context);
+            documentTypeDM = new DocumentTypeDM(_context);            
         }
 
+        //Role CRUD operation
         //[Authorize(Policy = "For Admin")]
-        [HttpPost]
+        /*[HttpPost]
         [Route("AddRole")]
         public string AddRoles(Role role)
         {
@@ -42,16 +49,40 @@ namespace FlightDocs.Controllers
         public string UpdateRole(Role role)
         {
             return roleDM.UpdateRole(role);
-        }
+        }*/
 
+        //Flight CRUD operation
         [HttpPost]
-        [Route("AddFlight")]
-        public void AddFlight(Flight flight)
+        [Route("Add Flight")]
+        public string AddFlight(Flight flight)
         {
-            flightDM.AddFlight(flight);            
+            flightDM.AddFlight(flight);
+
+            return "Add success!";
         }
 
         [HttpGet]
+        [Route("Get Today")]
+        public DateTime GetToday()
+        {
+            return DateTime.Now;
+        }
+
+        //Document type CRUD operation
+        [HttpPost]
+        [Route("Add Document type")]
+        public int AddDocumentType(DocumentTypeInfo documentTypeInfo) 
+        {
+            var documentType = new DocumentType();
+            documentType.Name = documentTypeInfo.Name;
+            documentType.Customer_roleId = documentTypeInfo.Customer_roleId;
+            documentType.CreatorId = documentTypeInfo.CreatorId;
+
+            return documentTypeDM.AddDocumentType(documentType);
+        }
+
+        //Get Token
+        /*[HttpGet]
         [Route("Get Token")]
         public async Task<ActionResult> GetToken()
         {
@@ -65,7 +96,6 @@ namespace FlightDocs.Controllers
             return Ok(token);
         }
 
-        //For in program usage
         [HttpGet]
         [Route("Get Token 2")]
         public string GetToken2()
@@ -82,9 +112,10 @@ namespace FlightDocs.Controllers
             var name = User.FindFirst(claimName)?.Value;
 
             return name;
-        }
+        }*/
 
-        [HttpPost]
+        //File handler
+        /*[HttpPost]
         [Route("Upload file")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
@@ -100,12 +131,12 @@ namespace FlightDocs.Controllers
 
             return Ok(path);
         }
-
+                
         [HttpPost]
         [Route("Upload file 2")]
         public async Task<IActionResult> UploadFile2(IFormFile file)
         {
-            string result = await FileHandler.UploadFile(file);
+            string result = await FileHandler.UploadFile(file, "Hey don't use me.pdf");
 
             if(result == null)
             {
@@ -138,8 +169,76 @@ namespace FlightDocs.Controllers
             //var stream = new FileStream(path, FileMode.Open);
 
             //return new FileStreamResult(stream, "application/pdf");
+        }*/
+
+        [HttpPost]
+        [Route("Upload Pic")]
+        public async Task<string> UploadPic(string docName, float version, IFormFile pic)
+        {
+            return await documentDM.PicNameHandlerAsync(docName, version, pic);
         }
 
+
+            //Document input
+            [HttpPost]
+        [Route("Input document")]
+        public async Task<int> AddDocumentAsync(DocumentInfo documentInfo, IFormFile file)
+        {
+            var document = new Document();
+            document.Name = documentInfo.Name;
+            document.Note = documentInfo.Note;
+            document.DocumentTypeId = documentInfo.DocumentTypeId;
+            document.FlightId = documentInfo.FlightId;
+            document.CreatorId = documentInfo.CreatorId;
+
+            return await documentDM.AddDocumentAsync(document, file);
+        }
+
+        [HttpPost]
+        [Route("Update document")]
+        public async Task<string> UpdateDocumentAsync(int docId, string note, IFormFile file)
+        {
+            var document = documentDM.GetDocument(docId);
+            document.Note = note;
+
+            if (file == null || file.Length == 0)
+                return documentDM.UpdateDocument(document);
+
+            return await documentDM.UpdateDocumentAsync(document, file);
+        }
+
+        //Permission CRUD operation
+        [HttpPost]
+        [Route("Add permission DG")]
+        public async Task<string> AddPermissionDG(PermissionDGInfo permissionDGInfo)
+        {
+            var permissionDG = new PermissionDG();
+            permissionDG.GroupId = permissionDGInfo.GroupId;
+            permissionDG.DocumentId = permissionDGInfo.DocumentId;
+
+            return permissionDM.AddPermissionDG(permissionDG);
+        }
+
+        [HttpPost]
+        [Route("Add permission DTG")]
+        public async Task<string> AddPermissionDTG(PermissionDTGInfo permissionDTGInfo)
+        {
+            var permissionDTG =  new PermissionDTG();
+            permissionDTG.GroupId = permissionDTGInfo.GroupId;
+            permissionDTG.DocumentTypeId = permissionDTGInfo.DocumentTypeId;
+            permissionDTG.Access_Level = permissionDTGInfo.Access_Level;
+
+            return permissionDM.AddPermissionDTG(permissionDTG);
+        }
+
+        /*[HttpPost]
+        [Route("Check file name")]
+        public async Task<string> ProcessTheName(string name, float version, IFormFile file) 
+        {
+            return await documentDM.FileNameHandlerAsync(name, version, file);
+        }*/
+
+        //System extra
         public IActionResult Index()
         {
             return View();

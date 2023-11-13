@@ -23,4 +23,11 @@ namespace FlightDocs.Models
         [ForeignKey("CreatorId")]
         public User User { get; set; }
     }
+
+    public class DocumentTypeInfo
+    {
+        public string Name { get; set; }
+        public int? Customer_roleId { get; set; }
+        public int CreatorId { get; set; }
+    }
 }

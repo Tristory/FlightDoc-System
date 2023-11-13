@@ -26,8 +26,8 @@ namespace FlightDocs.Models
     public class GroupInfo
     {
         public string Name { get; set; }
-        public DateTime Created_date { get; set; }
+        //public DateTime Created_date { get; set; }
         public string? Note { get; set; }
-        public int CreatorId { get; set; }
+        //public int CreatorId { get; set; }
     }
 }

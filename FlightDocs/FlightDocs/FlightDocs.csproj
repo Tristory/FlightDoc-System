@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="File Handler\Main Folder\" />
+    <Folder Include="File Handler\Sign Folder\" />
   </ItemGroup>
 
 </Project>
